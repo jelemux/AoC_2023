@@ -26,7 +26,8 @@ export fn main() void = {
     const input = strings::split(input, "\n");
     defer free(input);
 
-    let sum: int = 0;
+    let part1Sum: int = 0;
+    let part2Sum: int = 0;
 
 
     for (let i = 0z; i < len(input); i += 1) {
@@ -39,11 +40,36 @@ export fn main() void = {
         defer free(game.draws);
 
         if (gamePossible(game)) {
-            sum += game.num;
+            part1Sum += game.num;
+        };
+
+        const minSet = minimalPossibleSet(game);
+        part2Sum += minSet.red * minSet.green * minSet.blue;
+    };
+
+    fmt::printfln("Day 2 Part 1: {}", part1Sum)!;
+    fmt::printfln("Day 2 Part 2: {}", part2Sum)!;
+};
+
+fn minimalPossibleSet(game: game) draw = {
+    let maxRed = 0i;
+    let maxGreen = 0i;
+    let maxBlue = 0i;
+
+    for (let i = 0z; i < len(game.draws); i += 1) {
+        const draw = game.draws[i];
+        if (draw.red > maxRed) {
+            maxRed = draw.red;
+        };
+        if (draw.green > maxGreen) {
+            maxGreen = draw.green;
+        };
+        if (draw.blue > maxBlue) {
+            maxBlue = draw.blue;
         };
     };
 
-    fmt::printfln("Day 2 Part 1: {}", sum)!;
+    return draw{red = maxRed, green = maxGreen, blue = maxBlue};
 };
 
 fn gamePossible(game: game) bool = {
