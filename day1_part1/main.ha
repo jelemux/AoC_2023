@@ -48,5 +48,5 @@ export fn main() void = {
         };
     };
 
-    fmt::printfln("Day 1 Part 1 {}", sum)!;
+    fmt::printfln("Day 1 Part 1: {}", sum)!;
 };
