@@ -63,7 +63,7 @@ export fn main() void = {
         };
 
         if (winningNumbersCount > 0) {
-            sum += math::powf64(2: f64, (winningNumbersCount - 1): f64): uint;
+            sum += math::powf64(2f64, (winningNumbersCount - 1): f64): uint;
         };
     };
 
