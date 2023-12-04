@@ -4,6 +4,7 @@ use io;
 use strings;
 use strconv;
 use math;
+use time;
 
 let lookupTable: []size = [];
 
@@ -37,21 +38,19 @@ export fn main() void = {
     const input = strings::split(input, "\n");
     defer free(input);
 
-    let sum = countScratchCards(input, 0z, 0z);
+    let sum = 0z;
+    countScratchCards(input, 0z, &sum);
 
     fmt::printfln("Day 4 Part 2: {}", sum)!;
 };
 
-fn countScratchCards(input: []str, currentIdx: size, currentSum: size) size = {
-    currentSum += 1;
+fn countScratchCards(input: []str, currentIdx: size, currentSum: *size) void = {
+    *currentSum += 1;
     const nextNLines = countWinningNums(input[currentIdx]);
 
-    fmt::printfln("Card {}; current sum: {}; winning nums: {}", currentIdx+1, currentSum, nextNLines)!;
-
-    for (let i = currentIdx + 1; i < len(input) && i <= currentIdx + nextNLines + 1; i += 1) {
-        currentSum = countScratchCards(input, i, currentSum);
+    for (let i = 1z; currentIdx + i < len(input) && i <= nextNLines; i += 1) {
+        countScratchCards(input, currentIdx + i, currentSum);
     };
-    return currentSum;
 };
 
 fn countWinningNums(line: str) size = {
